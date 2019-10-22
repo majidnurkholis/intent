@@ -1,0 +1,161 @@
+//Activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+    <EditText
+        android:id="@+id/nim_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="Nim" />
+
+    <EditText
+        android:id="@+id/nama_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="Nama" />
+
+    <EditText
+        android:id="@+id/nilai_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="Nilai" />
+
+    <Button
+        android:id="@+id/btn_proses"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="proses" />
+
+</LinearLayout>
+</LinearLayout>
+
+--------------------------------------------------------------------------------
+
+//MainActivity.kt
+package com.example.latihan
+
+import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
+
+class MainActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        val nim_edit = findViewById<EditText>(R.id.nim_edit)
+        val nama_edit = findViewById<EditText>(R.id.nama_edit)
+        val nilai_edit = findViewById<EditText>(R.id.nilai_edit)
+
+        val btn_save = findViewById<Button>(R.id.btn_proses)
+
+        btn_save.setOnClickListener {
+            val nim = nim_edit.text.toString()
+            val nama = nama_edit.text.toString()
+            val nilai = nilai_edit.text.toString()
+
+
+            val intent = Intent(this@MainActivity, Main2Activity::class.java)
+
+
+            intent.putExtra("Nim", nim)
+            intent.putExtra("Nama", nama)
+            intent.putExtra("Nilai", nilai)
+
+
+
+            startActivity(intent)
+        }
+    }
+}
+
+
+----------------------------------
+
+//Activity_main2.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Main2Activity">
+
+    <TextView
+        android:id="@+id/hasil"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
+</LinearLayout>
+
+----------------------------
+//Mainactivity2.kt
+
+
+package com.example.latihan
+
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.EditText
+import android.widget.TextView
+
+class Main2Activity : AppCompatActivity() {
+
+    lateinit var hasil:String
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main2)
+
+        var intent=intent
+        val nim=intent.getStringExtra("Nim")
+        val nama=intent.getStringExtra("Nama")
+        val nilai=intent.getStringExtra("Nilai")
+
+
+        if (nilai.toInt()>=80){
+            hasil="A"
+        }
+        if (nilai.toInt()<80 && nilai.toInt()>=60){
+            hasil="B"
+        }
+        if (nilai.toInt()<60 && nilai.toInt()>=40){
+            hasil="C"
+        }
+        if (nilai.toInt()<40&& nilai.toInt()>0){
+            hasil="D"
+        }
+        if (nilai.toInt()==0){
+            hasil="E"
+        }
+
+
+        val resultTv =findViewById<TextView>(R.id.hasil)
+
+        resultTv.text="Nim : "+nim+"\nNama : "+nama+"\nNilai : "+nilai+"\nKeterangan: "+hasil
+
+    }
+}
+
+
+
